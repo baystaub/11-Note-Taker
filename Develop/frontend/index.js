@@ -23,24 +23,25 @@ const hide = (elem) => {
 let activeNote = {};
 
 const getNotes = () =>
-  fetch("/api/notes", {
+  fetch("/api/note", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-const saveNote = (note) =>
-  fetch("/api/notes", {
+const saveNote = (note) => {
+  fetch("/api/note", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(note),
   });
+};
 
 const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+  fetch(`/api/note/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -114,7 +115,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-  if (window.location.pathname === "/notes") {
+  if (window.location.pathname === "/note") {
     noteList.forEach((el) => (el.innerHTML = ""));
   }
 
@@ -159,7 +160,7 @@ const renderNoteList = async (notes) => {
     noteListItems.push(li);
   });
 
-  if (window.location.pathname === "/notes") {
+  if (window.location.pathname === "/note") {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
 };
@@ -167,7 +168,7 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-if (window.location.pathname === "/notes") {
+if (window.location.pathname === "/note") {
   saveNoteBtn.addEventListener("click", handleNoteSave);
   newNoteBtn.addEventListener("click", handleNewNoteView);
   noteTitle.addEventListener("keyup", handleRenderSaveBtn);
